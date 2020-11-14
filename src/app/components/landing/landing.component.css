@@ -1,0 +1,42 @@
+svg { 
+    display: inline-block; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: -100;
+}
+
+a {
+    text-decoration: none;
+}
+
+.pre-img {
+    position: relative;
+    width: 500px;
+    margin-right: 4rem;
+    margin-top: 6rem;
+    float: right;
+    z-index: -200;
+}
+
+.logo-img {
+    display: inline-block;
+    width: 170px;
+    margin-left: 100px;
+}
+
+section {
+    padding: 100px;
+    width: 600px;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 3rem;
+    color: rgb(255, 255, 255);
+}
+
+p {
+    font-size: 1rem;
+    color: rgb(182, 182, 182);
+}
