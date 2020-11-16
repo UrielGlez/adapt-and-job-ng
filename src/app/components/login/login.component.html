@@ -1,1 +1,55 @@
-<p>login works!</p>
+<div class="container-fluid">
+    <div class="row min-vh-100">
+        <div class="col-6 black-column">
+            <div class="row h-100">
+                <div class="col-12 my-auto">
+                    <div class="w-50 mx-auto">
+                        <img src="../../../assets/icons/logoFormat2AZUL.PNG" alt="Vectorized image" class="logo-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 bg-light">
+            <div class="row">
+                <div class="col-8 mx-auto mt-4">
+                    <h1>Iniciar <span class="text-primary">Sesión</span></h1>
+                    <div>
+                        <p class="text-muted">Ingresa tus datos para iniciar sesion en tu cuenta de adapt&job</p>
+                    </div>
+                    <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onLogin()" novalidate>
+                        <div class="mb-2">
+                            <label class="form-label" for="name">Correo Electronico</label>
+                            <input type="email" name="name" class="form-control" required email placeholder="Ej. adapt@gmail.com"
+                                #e="ngModel" [(ngModel)]="email" [ngClass]="{ 'is-invalid': f.submitted && e.invalid }">
+                            <div class="invalid-feedback" *ngIf="f.submitted && e.invalid">
+                                <div *ngIf="e.errors.required">Requerido</div>
+                                <div *ngIf="e.errors.email">Debe ser un correo válido</div>
+                            </div>
+                            <small id="emailHelp" class="form-text text-muted">No compartas tu cuenta con nadie mas.</small>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Contraseña</label>
+                            <div class="input-group input-group-flat">
+                                <input type="password" name="password" class="form-control" id="password" required placeholder="Ingresar constraseña"
+                                    #p="ngModel" [(ngModel)]="password" [ngClass]="{ 'is-invalid': f.submitted && p.invalid }">
+                                <div class="invalid-feedback" *ngIf="f.submitted && p.invalid">
+                                    <div *ngIf="p.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-footer mt-4 mb-5">
+                            <button type="submit" class="btn btn-block btn-primary" [disabled]="isLogin">
+                                <span class="spinner-border spinner-border-sm mr-2" role="status" *ngIf="isLogin"></span>
+                                <span *ngIf="!isLogin">Iniciar Sesión</span>
+                                <span *ngIf="isLogin">Validando...</span>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="text-muted">¿No tienes cuenta en adapt&job? <a href="#" [routerLink]="['/signup']" class="text-primary">Registrate</a></p>
+                </div>     
+            </div>
+        </div>
+    </div>
+</div>

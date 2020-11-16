@@ -1,0 +1,11 @@
+.max-height {
+    height: 100vh; /* vh stands for view-port height, 1vh is 1% of screen height */
+}
+
+.black-column {
+    background-color: #000;
+}
+
+a {
+    text-decoration: none;
+}
