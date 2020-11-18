@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "npm run serve",
+    "serve": "ng serve --o --port 4200",
+    "build": "npm run build:ng:dev",
+    "build:ng:dev": "ng build --output-path=../isProjectServer/public",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -24,6 +26,8 @@
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
     "bootstrap": "^4.5.0",
     "firebase": "^8.0.2",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.5.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

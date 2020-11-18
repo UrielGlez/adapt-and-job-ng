@@ -14,6 +14,11 @@ import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { CleanComponent } from './layout/clean/clean.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { HomeComponent } from './components/home/home.component';
+import { MainComponent } from './layout/main/main.component';
+import { FooterComponent } from './layout/main/footer/footer.component';
+import { HeaderComponent } from './layout/main/header/header.component';
+import { MenuComponent } from './layout/main/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,12 @@ import { SignupComponent } from './components/signup/signup.component';
     LandingComponent,
     LoginComponent,
     CleanComponent,
-    SignupComponent
+    SignupComponent,
+    HomeComponent,
+    MainComponent,
+    FooterComponent,
+    HeaderComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
