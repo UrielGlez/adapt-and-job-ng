@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from "../../services/data.service";
+import { Router } from '@angular/router';
+import { SecurityService } from '../../services/security.service';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +13,44 @@ export class LoginComponent implements OnInit {
   password: String;
   isLogin: Boolean = false;
 
-  constructor() { }
+  constructor(
+    private data: DataService, 
+    private securityService: SecurityService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
   onLogin():void {
-    alert('Hello world');
+    console.log('[LoginComponent][onLogin]');
+    this.isLogin = true;
+
+    this.securityService.login({
+      email: this.email,
+      password: this.password
+    }).subscribe((res) => {
+      console.log('HOLA MUNDOTE');
+      this.isLogin = false;
+      this.router.navigate(['/home']);
+    }, (error) => {
+        this.isLogin = false;
+        console.log(error);
+    });
+    /*console.log('[LogintComponent][onLogin]');
+    this.isLogin = true;
+    const auth = {
+      email: this.email,
+      password: this.password
+    }
+
+    this.data.insertOne('/signin', auth).subscribe(res => {
+      this.isLogin = false;
+      console.log(res);
+      this.router.navigate(['/home']);
+    }, (e) => {
+      this.isLogin = false;
+      console.log(e);
+    });*/
   }
 }

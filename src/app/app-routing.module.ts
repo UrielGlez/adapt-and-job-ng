@@ -6,6 +6,7 @@ import { CleanComponent } from './layout/clean/clean.component';
 import { SignupComponent } from './components/signup/signup.component'
 import { HomeComponent } from './components/home/home.component';
 import { MainComponent } from './layout/main/main.component';
+import { SecurityGuard } from "./services/security.guard";
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -21,7 +22,7 @@ const routes: Routes = [
   {
     path: "", component: MainComponent, 
     children: [
-      { path: "home",  component: HomeComponent }
+      { path: "home",  component: HomeComponent, canActivate: [SecurityGuard] }
     ]
   },
   { path: '**', redirectTo: "", pathMatch: 'full' },
