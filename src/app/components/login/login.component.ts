@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
       email: this.email,
       password: this.password
     }).subscribe((res) => {
-      console.log('HOLA MUNDOTE');
       this.isLogin = false;
       this.router.navigate(['/home']);
     }, (error) => {

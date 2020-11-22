@@ -31,9 +31,9 @@ export class SecurityService {
         } else {
           if (res["user"] && res["token"]) {
             this.userChanges.emit(res["user"]);
-            this.currentUser = res['user'];
+            this.currentUser = res['user'] as User;
 
-            localStorage.setItem('tokenAdapt', res['token']);
+            localStorage.setItem('tokenAdapt', `${res['token']}`);
           }
           observer.next(res);
         }
@@ -45,7 +45,7 @@ export class SecurityService {
     });
   }
 
-  signup(obj): Observable<any> {
+  signup(obj: any): Observable<any> {
     return new Observable((observer) => {
       this.http.post(environment.serverBaseURL + '/signup', obj).subscribe(res => {
         if (!res) {
@@ -69,7 +69,6 @@ export class SecurityService {
       this.currentUser = null;
 
       localStorage.removeItem('tokenAdapt');
-      localStorage.removeItem('cookie');
 
       this.userChanges.emit();
       observer.next();
@@ -93,11 +92,12 @@ export class SecurityService {
     if (this.currentUser) {
       return this.currentUser;
     }
-    var obj = this.jwt.decodeToken(this.getToken());
 
+    var obj = this.jwt.decodeToken(this.getToken());
+    
     if (obj) {
-      let res = await this.dataService.findByFilter('/users/index/filter', { email: obj.email }).toPromise();
-      this.currentUser = res['data'][0] as User;
+      let res = await this.dataService.findById('/users/index', obj.id ).toPromise();
+      this.currentUser = res['objs'] as User;
       return this.currentUser;
     } else {
       return null;

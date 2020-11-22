@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SecurityService } from '../../services/security.service';
 
 @Component({
   selector: 'app-signup',
@@ -14,13 +16,31 @@ export class SignupComponent implements OnInit {
   isValidating: Boolean = false;
 
 
-  constructor() { }
+  constructor(
+    private securityService: SecurityService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
   onRegister(): void {
-    alert('Hello world');
+    if (this.password !== this.passwordConfirm) {
+      alert('Las contraseñas no coinciden');
+    } else {
+      this.securityService.signup(
+        {
+          firstName: this.firstName, 
+          lastName: this.lastName, 
+          email: this.email, 
+          password: this.password
+        }
+      ).subscribe(() => {
+        this.router.navigate(['/login']);
+      }, (error) => {
+        console.log(error);
+      });
+    }
   }
 
 }
