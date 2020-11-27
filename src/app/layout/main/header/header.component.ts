@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
 
   showNotificacions: boolean = false;
   showUserInfo: boolean = false;
+  display: boolean = false;
   currentUser: any={};
 
   style = "transform: translate3d(-135px, 32px, 0px)";
@@ -26,6 +27,10 @@ export class HeaderComponent implements OnInit {
 
   async ngOnInit() {
     this.currentUser = await this.securityService.getCurrentUser();
+  }
+
+  showDialog() {
+    this.display = true;
   }
 
   onLogout() {

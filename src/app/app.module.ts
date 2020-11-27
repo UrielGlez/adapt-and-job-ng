@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from "@angular/forms";
@@ -25,6 +26,9 @@ import { MenuComponent } from './layout/main/menu/menu.component';
 import { SecurityGuard } from "./services/security.guard";
 import { TokenInterceptor } from "./services/token.interceptor";
 
+import { MessageService, ConfirmationService } from "primeng/api";
+import { DialogModule } from 'primeng/dialog'; 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +44,7 @@ import { TokenInterceptor } from "./services/token.interceptor";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -47,10 +52,13 @@ import { TokenInterceptor } from "./services/token.interceptor";
     AngularFireStorageModule,
     AngularFirestoreModule, 
     AppRoutingModule, 
-    NgbModule
+    NgbModule,
+    DialogModule
   ],
   providers: [
     SecurityGuard,
+    ConfirmationService,
+    MessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

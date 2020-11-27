@@ -1,3 +1,13 @@
 .navbar-dark {
     background-color: #000; 
 }
+
+.mydialog {
+    width: 50vw;
+}
+
+@media screen and (max-width: 40em) {
+    .mydialog {
+        width: 30vw;
+    }
+}

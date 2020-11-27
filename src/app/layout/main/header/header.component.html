@@ -13,7 +13,7 @@
                 <a class="dropdown-item" href="#">Espacio 1</a>
                 <a class="dropdown-item" href="#">Espacio 2</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item active" href="#">
+                <a class="dropdown-item active" href="javascript:void(0)" (click)="showDialog()">
                     <i class="fas fa-plus mr-2"></i>
                     Crear espacio
                 </a>
@@ -38,5 +38,9 @@
             </div>
         </li>
     </ul>
+    
 </header>
 <!--/.Navbar -->
+<p-dialog header="Crear espacio" [(visible)]="display" [modal]="true">
+    
+</p-dialog>
