@@ -40,8 +40,8 @@ export class DataService {
     return this.http.post(environment.serverBaseURL + collection + "/", list);
   }
 
-  updateOne(collection: String, obj: any) {
-    return this.http.put(environment.serverBaseURL + collection + "/", obj);
+  updateOne(collection: String, id: String, obj: any) {
+    return this.http.put(environment.serverBaseURL + collection + "/" + id, obj);
   }
 
   updateMany(collection: String, obj: String) {

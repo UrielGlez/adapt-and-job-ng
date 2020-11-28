@@ -1,5 +1,56 @@
 <div class="container">
-    <button type="button" class="btn btn-outline-light" (click)="onFindUsers()">GET USERS</button>
+    <div *ngIf="workSpace; then data else home"></div>
+    <ng-template #data>
+        <div *ngIf="linkUrl">
+            <div class="row">
+                <div class="col-6">
+                    <i class="far fa-file-pdf fa-fw" style="font-size: 30px; color:red" aria-hidden="true"></i>
+                    <a href="{{ workSpace._regulation_link }}" target="_blank" class="text-white h1 ml-2">reglamento.pdf</a>
+                </div>
+                <div class="col-6">
+                    <a class="btn btn-outline-light float-right" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Invitar
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!linkUrl">
+            <div class="row mx-auto d-flex align-items-center">
+                <div class="col-5 mx-auto">
+                    <p-progressBar mode="indeterminate" *ngIf="progress"></p-progressBar>
+                    <div class="row">
+                        <p-fileUpload name="fileInput" customUpload="false" (onSelect)="validateFileSize($event, fileInput.maxFileSize)" #fileInput
+                            accept=".pdf" maxFileSize="100000000" chooseLabel="Cargar reglamento" (uploadHandler)="onUpload($event)">
+                            <ng-template let-file pTemplate="file">
+                                <div class="ui-fileupload-row">
+                                <div>
+                                    <i class="far fa-file-pdf fa-fw" style="font-size: 15px; color:red" aria-hidden="true"></i>
+                                    <label>{{ file.name }}</label>
+                                </div>
+                                </div>
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <!--<pdf-viewer [src]="linkUrl" 
+            [render-text]="true"
+            [withCredentials] = "false">
+        </pdf-viewer>-->
+        <!--<object data="https://firebasestorage.googleapis.com/v0/b/adapt-and-job-b7b59.appspot.com/o/regulation-docs%2F1606523315941?alt=media&token=9195f403-6250-4ae0-b2bd-7d75a96886b0" type="application/pdf" width="100%"
+            height="100%"> 
+            <iframe src="linkUrl" width="100%" height="100vh"
+                style="border: none;">
+                <p>Your browser does not support PDFs.
+                <a href="{{ workSpace._regulation_link }}">Download the PDF</a>.</p>
+            
+            </iframe> 
+        </object>-->
+    </ng-template>
+    <ng-template #home>
+
+    </ng-template>
 </div>
 
 

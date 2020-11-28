@@ -36,20 +36,5 @@ export class LoginComponent implements OnInit {
         this.isLogin = false;
         console.log(error);
     });
-    /*console.log('[LogintComponent][onLogin]');
-    this.isLogin = true;
-    const auth = {
-      email: this.email,
-      password: this.password
-    }
-
-    this.data.insertOne('/signin', auth).subscribe(res => {
-      this.isLogin = false;
-      console.log(res);
-      this.router.navigate(['/home']);
-    }, (e) => {
-      this.isLogin = false;
-      console.log(e);
-    });*/
   }
 }

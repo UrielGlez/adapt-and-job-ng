@@ -22,14 +22,15 @@ const routes: Routes = [
   {
     path: "", component: MainComponent, 
     children: [
-      { path: "home",  component: HomeComponent, canActivate: [SecurityGuard] }
+      { path: "home",  component: HomeComponent, canActivate: [SecurityGuard] },
+      { path: "home-info/:id",  component: HomeComponent, canActivate: [SecurityGuard], runGuardsAndResolvers: 'always'}
     ]
   },
   { path: '**', redirectTo: "", pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy', onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

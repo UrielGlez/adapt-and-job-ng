@@ -10,8 +10,7 @@
                 Espacios
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Espacio 1</a>
-                <a class="dropdown-item" href="#">Espacio 2</a>
+                <a class="dropdown-item" href="javascript:void(0)" *ngFor="let space of workSpaces" [routerLink]="['/home-info/', space._id]">{{space._title}}</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item active" href="javascript:void(0)" (click)="showDialog()">
                     <i class="fas fa-plus mr-2"></i>
@@ -38,9 +37,36 @@
             </div>
         </li>
     </ul>
-    
 </header>
+
 <!--/.Navbar -->
-<p-dialog header="Crear espacio" [(visible)]="display" [modal]="true">
-    
+<p-dialog styleClass="max-1000" [resizable]="false" [style]="{width: '30vw'}"
+    [draggable]="false" header="Crear espacio" [(visible)]="display" [modal]="true">
+    <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onCreateWorkSpace()" novalidate>
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="mb-2">
+                    <label class="form-label" for="name">Nombre</label>
+                    <input type="text" name="name" class="form-control" required placeholder="Ej. Coca-Cola"
+                        #name="ngModel" [(ngModel)]="workSpace.title" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                    <div class="invalid-feedback" *ngIf="f.submitted && name.invalid">
+                        <div *ngIf="name.errors.required">Requerido</div>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label" for="desc">Descripción</label>
+                    <input type="text" name="desc" class="form-control" required placeholder="Ej. Hacemos refrescos"
+                        #desc="ngModel" [(ngModel)]="workSpace.description" [ngClass]="{ 'is-invalid': f.submitted && desc.invalid }">
+                    <div class="invalid-feedback" *ngIf="f.submitted && desc.invalid">
+                        <div *ngIf="desc.errors.required">Requerido</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary d-flex float-right" 
+            role="button" aria-haspopup="true" aria-expanded="false">
+            Crear
+        </button>
+    </form>
 </p-dialog>

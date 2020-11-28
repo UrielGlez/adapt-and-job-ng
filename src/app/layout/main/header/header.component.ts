@@ -10,14 +10,14 @@ import { SecurityService } from "../../../services/security.service";
 })
 export class HeaderComponent implements OnInit {
 
-  awaitingNotifications: any[] = [];
-
-  showNotificacions: boolean = false;
-  showUserInfo: boolean = false;
   display: boolean = false;
-  currentUser: any={};
+  currentUser: any = {};
+  workSpace: any = {};
 
-  style = "transform: translate3d(-135px, 32px, 0px)";
+  workSpaces: any = [];
+  
+  title: string;
+  description: string;
 
   constructor(
     public securityService: SecurityService, 
@@ -27,16 +27,37 @@ export class HeaderComponent implements OnInit {
 
   async ngOnInit() {
     this.currentUser = await this.securityService.getCurrentUser();
+    this.onFindWorkspace();
   }
 
   showDialog() {
-    this.display = true;
+    this.display = !this.display;
+  }
+
+  onFindWorkspace() {
+    this.data.find('/workspace').subscribe(res => {
+      this.workSpaces = res.objs.docs;
+    }, error => {
+      console.log(error)
+    });
   }
 
   onLogout() {
     this.securityService.logout().subscribe(() =>{
       this.router.navigate(['/login']);
     });
+  }
+
+  onCreateWorkSpace() {
+    this.workSpace.creator = this.currentUser._id;
+    this.data.insertOne('/workspace', this.workSpace).subscribe(res => {
+      let space = res['objs'];
+      this.workSpaces.push(space);
+    }, error => {
+      console.log(error);
+    });
+
+    this.showDialog();
   }
 
 }

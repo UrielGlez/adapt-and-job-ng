@@ -23,11 +23,14 @@ import { FooterComponent } from './layout/main/footer/footer.component';
 import { HeaderComponent } from './layout/main/header/header.component';
 import { MenuComponent } from './layout/main/menu/menu.component';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SecurityGuard } from "./services/security.guard";
 import { TokenInterceptor } from "./services/token.interceptor";
 
 import { MessageService, ConfirmationService } from "primeng/api";
+import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog'; 
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import { DialogModule } from 'primeng/dialog';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ProgressBarModule,
     HttpClientModule,
+    PdfViewerModule,
+    FileUploadModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
