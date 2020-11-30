@@ -55,6 +55,7 @@ export class DocumentsComponent implements OnInit {
   onFindSupportMaterial() {
     this.data.findByParams('/support-material', this.workSpaceId).subscribe(res => {
       this.supportMaterialDocs = res.objs.docs;
+      console.log(this.supportMaterialDocs)
     }, error => {
       console.log(error);
     });
@@ -82,7 +83,8 @@ export class DocumentsComponent implements OnInit {
         console.log(mediaURL);
 
         this.supportMaterial.link = mediaURL;
-        this.supportMaterial.creator = this.currentUser._first_name;
+        this.supportMaterial.creator= this.currentUser._id;
+        this.supportMaterial.creator_name = this.currentUser._first_name;
         this.supportMaterial.space = this.workSpaceId;
 
         this.data.insertOne('/support-material', this.supportMaterial).subscribe(res => {

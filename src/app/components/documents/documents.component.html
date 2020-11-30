@@ -12,14 +12,16 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-3 ml-2 mt-2 card my-auto" *ngFor="let material of supportMaterialDocs">
-            <div class="card-body">
-                <h4 class="card-title white-text">{{ material._title }}</h4>
-                <h6 class="card-subtitle mb-2 text-secondary">publicado por {{ material._creator_name }}</h6>
-                <p class="card-text text-muted">{{ material._description }}</p>
-                <i class="far fa-file-pdf fa-fw" style="font-size: 25px; color:red" aria-hidden="true"></i>
-                <a href="{{ material._link }}" target="_blank" class="text-light h2 ml-2">material.pdf</a>
-            </div>
+        <div class="col-4" *ngFor="let material of supportMaterialDocs">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title white-text">{{ material._title }}</h4>
+                    <h6 class="card-subtitle mb-2 text-secondary">publicado por {{ material._creator_name }}</h6>
+                    <p class="card-text text-muted">{{ material._description }}</p>
+                    <i class="far fa-file-pdf fa-fw" style="font-size: 25px; color:red" aria-hidden="true"></i>
+                    <a href="{{ material._link }}" target="_blank" class="text-light h2 ml-2">material.pdf</a>
+                </div>
+            </div>    
         </div>
     </div>
 </div>

@@ -1,6 +1,9 @@
-.container {
-    margin-left: 10em;
-    padding-top: 65px;
+@media (min-width: 1200px) {
+    .container{
+        max-width: 985px;
+        padding-top: 65px;
+        margin-left: 14rem;
+    }
 }
 
 h1 {
