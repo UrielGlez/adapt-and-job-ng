@@ -1,23 +1,17 @@
 <div class="sidebar">
     <header>
-      <a class="title" href="#">My App</a>
+        <span>MENÚ</span>
     </header>
     <nav class="navbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" [routerLink]="['/home-info/', spaceId]" class="nav-link">
                     <i class="fas fa-home fa-4x"></i>
                     <span class="link-text">Home</span>
                 </a>                
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-glasses fa-4x"></i>
-                    <span class="link-text">Cursos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" [routerLink]="['/documents/', spaceId]" class="nav-link">
                     <i class="fas fa-file fa-4x"></i>
                     <span class="link-text">Docs</span>
                 </a>

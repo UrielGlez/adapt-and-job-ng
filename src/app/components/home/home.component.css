@@ -1,3 +1,17 @@
 .container {
     margin-left: 10em;
+    padding-top: 65px;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #295ea8
+}
+
+.home-container {
+    background-image: url("../../../assets/img/home-screen.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100vh;
 }

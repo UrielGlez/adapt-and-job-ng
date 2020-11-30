@@ -1,5 +1,5 @@
 <!--Navbar -->
-<header class="mb-0 navbar navbar-expand-lg navbar-dark">
+<header class="navbar fixed-top navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="" [routerLink]="['/home']" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">
         <img src="/assets/icons/logoAZUL2.PNG" alt="Tabler" class="navbar-brand-image">
         <img src="/assets/icons/logoAZUL3.PNG" alt="Tabler" class="navbar-brand-image">
@@ -10,7 +10,7 @@
                 Espacios
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="javascript:void(0)" *ngFor="let space of workSpaces" [routerLink]="['/home-info/', space._id]">{{space._title}}</a>
+                <a class="dropdown-item" href="javascript:void(0)" *ngFor="let space of workSpaces" [routerLink]="['/home-info/', space._id]">{{space?._title}}</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item active" href="javascript:void(0)" (click)="showDialog()">
                     <i class="fas fa-plus mr-2"></i>
@@ -22,7 +22,7 @@
             <a  class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink-55"
             aria-haspopup="true" aria-expanded="true"> 
             <span class="avatar mr-2" style="background-image: url(/assets/img/avatar.png)"></span>
-            <div>{{currentUser._first_name}}</div>
+            <div>{{currentUser?._first_name}}</div>
         </a>
             <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
                 aria-labelledby="navbarDropdownMenuLink-55">

@@ -1,0 +1,13 @@
+.container {
+    margin-left: 10em;
+    padding-top: 65px;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #295ea8
+}
+
+.white-text {
+    color: white !important;
+}

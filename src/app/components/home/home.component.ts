@@ -20,8 +20,6 @@ export class HomeComponent implements OnInit, OnDestroy{
   progress: boolean = false;
   linkUrl: boolean =  false;
 
-  entryWorkspace: boolean = false;
-
   constructor(    
     private data: DataService,
     private route: ActivatedRoute,
@@ -45,8 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.workSpaceId = this.route.snapshot.paramMap.get("id");
-    if(this.workSpaceId) {
-      this.entryWorkspace = true;
+    if(this.workSpaceId != null && this.workSpaceId != 'null') {
       this.onFindWorkSpace();
     }
   }

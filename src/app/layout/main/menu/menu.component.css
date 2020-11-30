@@ -1,5 +1,6 @@
 .sidebar {
   width: 9em;
+  padding-top: 55px;
   height: 100%;
   position: fixed;
   background: #1f2d40;

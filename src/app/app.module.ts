@@ -22,6 +22,7 @@ import { MainComponent } from './layout/main/main.component';
 import { FooterComponent } from './layout/main/footer/footer.component';
 import { HeaderComponent } from './layout/main/header/header.component';
 import { MenuComponent } from './layout/main/menu/menu.component';
+import { DocumentsComponent } from './components/documents/documents.component';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SecurityGuard } from "./services/security.guard";
@@ -43,7 +44,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
     MainComponent,
     FooterComponent,
     HeaderComponent,
-    MenuComponent
+    MenuComponent,
+    DocumentsComponent
   ],
   imports: [
     BrowserModule,

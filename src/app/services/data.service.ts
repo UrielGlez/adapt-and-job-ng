@@ -17,7 +17,7 @@ export class DataService {
   }
 
   findByParams(collection: String, params: String) {
-    return this.http.get<any>(environment.serverBaseURL + collection + "?" + params);
+    return this.http.get<any>(environment.serverBaseURL + collection + "/" + params);
   }
   
   findByFilter(collection: String, params: any) {

@@ -3,10 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { CleanComponent } from './layout/clean/clean.component';
-import { SignupComponent } from './components/signup/signup.component'
+import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
 import { MainComponent } from './layout/main/main.component';
 import { SecurityGuard } from "./services/security.guard";
+import { DocumentsComponent } from './components/documents/documents.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -23,7 +24,8 @@ const routes: Routes = [
     path: "", component: MainComponent, 
     children: [
       { path: "home",  component: HomeComponent, canActivate: [SecurityGuard] },
-      { path: "home-info/:id",  component: HomeComponent, canActivate: [SecurityGuard], runGuardsAndResolvers: 'always'}
+      { path: "home-info/:id",  component: HomeComponent, canActivate: [SecurityGuard], runGuardsAndResolvers: 'always'},
+      { path: "documents/:id",  component: DocumentsComponent, canActivate: [SecurityGuard] },
     ]
   },
   { path: '**', redirectTo: "", pathMatch: 'full' },
