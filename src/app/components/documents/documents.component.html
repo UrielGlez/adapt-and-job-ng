@@ -26,9 +26,19 @@
                         <a href="{{ material._link }}" target="_blank" class="text-light h2 ml-2">material.pdf</a>
                     </div>
                     <div class="card-footer">
-                        <a href="javascript:void(0)" *ngIf="material._creator === currentUser._id || workSpace._creator === currentUser._id" name="target" (click)="confirm(material._id)" class="white-color float-right">
-                            <i class="fa fa-trash mr-10 cursor-pointer" aria-hidden="true"></i>
-                        </a>
+                        <div *ngIf="workSpace._creator === currentUser._id" >
+                            <a href="javascript:void(0)" name="target" (click)="confirm(material._id)" class="white-color float-right">
+                                <i class="fa fa-trash mr-10 cursor-pointer" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div *ngIf="workSpace._creator !== currentUser._id" >
+                            <span *ngIf="material._creator !== currentUser._id" name="blocked" class="white-color float-right">
+                                <i class="fas fa-minus-circle mr-10" aria-hidden="true"></i>
+                            </span>
+                            <a href="javascript:void(0)" *ngIf="material._creator === currentUser._id" name="target" (click)="confirm(material._id)" class="white-color float-right">
+                                <i class="fa fa-trash mr-10 cursor-pointer" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>    
             </div>
