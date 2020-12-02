@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../services/data.service';
 import { Router } from '@angular/router';
 import { SecurityService } from "../../../services/security.service";
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     public securityService: SecurityService, 
     public data: DataService, 
+    private toast: MessageService,
     private router: Router
   ) {}
 
@@ -38,6 +40,7 @@ export class HeaderComponent implements OnInit {
     this.data.find('/workspace').subscribe(res => {
       this.workSpaces = res.objs.docs;
     }, error => {
+      this.toast.add({ severity: 'error', summary: 'Error', detail: "No se pudieron cargar los espacios. Intentalo de nuevo." });
       console.log(error)
     });
   }
@@ -51,9 +54,11 @@ export class HeaderComponent implements OnInit {
   onCreateWorkSpace() {
     this.workSpace.creator = this.currentUser._id;
     this.data.insertOne('/workspace', this.workSpace).subscribe(res => {
+      this.toast.add({ severity: 'success', summary: 'Éxito', detail: "Se ha creado correctamente el espacio." });
       let space = res['objs'];
       this.workSpaces.push(space);
     }, error => {
+      this.toast.add({ severity: 'error', summary: 'Error', detail: "No se pudo crear el espacio. Intentalo de nuevo." });
       console.log(error);
     });
 

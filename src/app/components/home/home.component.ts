@@ -3,6 +3,7 @@ import { DataService } from "../../services/data.service";
 import { Router, ActivatedRoute } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload';
 import { DataFirestoreService } from "../../services/data.firestore.service";
+import { SecurityService } from '../../services/security.service';
 
 @Component({
   selector: 'app-home',
@@ -13,18 +14,26 @@ export class HomeComponent implements OnInit, OnDestroy{
   @ViewChild('fileInput') fileInput: FileUpload;
   navigationSubscription: any;
 
-  display: boolean = false;
-  isLoading: boolean;
-  workSpaceId: string; 
-  workSpace: any;
+  isCreatorOfBoard: boolean = false;
+  isLoadingUsers: boolean = false;
+  displayInvite: boolean = false;
+  isLoading: boolean = true;
   progress: boolean = false;
   linkUrl: boolean =  false;
+  display: boolean = false;
+
+  selectedUsers: any = [];
+  workSpaceId: string; 
+  users: any = [];
+  workSpace: any;
+  user: any;
 
   constructor(    
     private data: DataService,
     private route: ActivatedRoute,
     private router: Router,
-    private firebaseData: DataFirestoreService
+    private firebaseData: DataFirestoreService,
+    private securityService: SecurityService,
   ) { 
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       this.initialiseInvites();
@@ -41,10 +50,12 @@ export class HomeComponent implements OnInit, OnDestroy{
     }
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.user = await this.securityService.getCurrentUser();
     this.workSpaceId = this.route.snapshot.paramMap.get("id");
     if(this.workSpaceId != null && this.workSpaceId != 'null') {
       this.onFindWorkSpace();
+      this.onFindUsers();
     }
   }
 
@@ -53,10 +64,29 @@ export class HomeComponent implements OnInit, OnDestroy{
     this.isLoading = true;
     this.data.findById('/workspace/index', this.workSpaceId).subscribe((res) => {
       this.workSpace = res.objs;
+
+      if(this.workSpace._creator === this.user._id) {
+        this.isCreatorOfBoard = true;
+      } else {
+        this.isCreatorOfBoard = false;
+      }
+
       this.linkUrl = this.workSpace._regulation_link;
       this.isLoading = false;
     }, (error) => {
       this.isLoading = false;
+    });
+  }
+
+  onFindUsers() {
+    this.isLoadingUsers = true;
+    this.data.find('/users').subscribe(d => {
+      this.users = d.objs.docs;
+      this.isLoadingUsers = false;
+    }, error => {
+      this.isLoadingUsers = false;
+      console.log(error);
+      //this.toast.add({ severity: 'error', summary: 'Error', detail: error });
     });
   }
 
@@ -94,6 +124,24 @@ export class HomeComponent implements OnInit, OnDestroy{
     }
     );
     this.progress = false;
+  }
+
+  showInviteDialog() {
+    this.displayInvite = true;
+  }
+
+  onAddUser() {
+    this.selectedUsers.forEach(u => {
+      this.data.addToBoard(this.workSpaceId, u._id).subscribe(d => {
+        //this.toast.add({ severity: 'info', summary: 'Agregdos', detail: "Usuarios agregados al tablero" });
+        console.log(d);
+        this.displayInvite = false;
+      }, error => {
+        this.displayInvite = false;
+        console.log(error);
+        //this.toast.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+      });
+    });
   }
 
   validateFileSize(event: any, maxFileSize: number) {

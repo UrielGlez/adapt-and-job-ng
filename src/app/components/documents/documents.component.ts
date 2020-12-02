@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FileUpload } from 'primeng/fileupload';
 import { DataFirestoreService } from "../../services/data.firestore.service";
 import { SecurityService } from "../../services/security.service";
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-documents',
@@ -23,19 +24,21 @@ export class DocumentsComponent implements OnInit {
   currentUser: any;
   supportMaterialDocs: any = [];
   file: any;
+  isCreatorOfMaterial: boolean = false;
 
   constructor(
     public securityService: SecurityService, 
     private data: DataService,
     private route: ActivatedRoute,
-    private router: Router,
-    private firebaseData: DataFirestoreService
+    private toast: MessageService,
+    private firebaseData: DataFirestoreService,
+    private confirmationService: ConfirmationService
   ) { }
 
   async ngOnInit() {
     this.currentUser = await this.securityService.getCurrentUser();
     this.workSpaceId = this.route.snapshot.paramMap.get("id");
-    if(this.workSpaceId) {
+    if(this.workSpaceId != null && this.workSpaceId != 'null') {
       this.onFindSupportMaterial();
       this.onFindWorkSpace();
     }
@@ -48,6 +51,8 @@ export class DocumentsComponent implements OnInit {
       this.linkUrl = this.workSpace._regulation_link;
       this.isLoading = false;
     }, (error) => {
+      this.toast.add({ severity: 'error', summary: 'Error', detail: "No se pudo cargar el espacio. Intentalo de nuevo." });
+      console.log(error);
       this.isLoading = false;
     });
   }
@@ -55,18 +60,35 @@ export class DocumentsComponent implements OnInit {
   onFindSupportMaterial() {
     this.data.findByParams('/support-material', this.workSpaceId).subscribe(res => {
       this.supportMaterialDocs = res.objs.docs;
-      console.log(this.supportMaterialDocs)
+      console.log(this.supportMaterialDocs);
     }, error => {
+      this.toast.add({ severity: 'error', summary: 'Error', detail: "No se pudo cargar el material. Intentalo de nuevo." });
       console.log(error);
     });
   }
 
   validateFileSize(event: any, maxFileSize: number) {
-    console.log("validateFileSize", event);
     if (event.files[0].size > maxFileSize) {
-      //toast
-      console.log("Archivo muy grande");
+      this.toast.add({ severity: 'info', summary: 'Archivo muy grande', detail: "Intenta con otro archivo." });
     }
+  }
+
+  confirm(materialId: string) {
+    this.confirmationService.confirm({
+      message: '¿Seguro que quieres eliminar este material?',
+      accept: () => {
+        this.onDeleteMaterial(materialId);
+      }
+    });
+  }
+
+  onDeleteMaterial(materialId: string) {
+    this.data.deleteOne('/support-material', materialId).subscribe(res => {
+      this.toast.add({ severity: 'info', summary: 'Material eliminado', detail: "El material ha sido eliminado correctamente." });
+      this.supportMaterialDocs.splice(this.supportMaterialDocs.indexOf(this.supportMaterialDocs.find(m => m._id == materialId)), 1);
+    }, err => {
+      this.toast.add({ severity: 'error', summary: 'Error', detail: err.error.message });
+    });
   }
 
   onCreateSupportMaterial() {
@@ -79,9 +101,6 @@ export class DocumentsComponent implements OnInit {
       result.ref.getDownloadURL().then(mediaURL => {
         this.fileInput.clear();
 
-        console.log('----------')
-        console.log(mediaURL);
-
         this.supportMaterial.link = mediaURL;
         this.supportMaterial.creator= this.currentUser._id;
         this.supportMaterial.creator_name = this.currentUser._first_name;
@@ -89,14 +108,16 @@ export class DocumentsComponent implements OnInit {
 
         this.data.insertOne('/support-material', this.supportMaterial).subscribe(res => {
           let materialDoc = res['objs'];
+          this.toast.add({ severity: 'success', summary: 'Éxito', detail: "Tu material ha sido creado correctamente." });
           this.supportMaterialDocs.push(materialDoc);
         }, error => {
+          this.toast.add({ severity: 'error', summary: 'Error', detail: "No se ha podido subir tu material. Intentalo de nuevo." });
           console.log(error);
         });
         this.progress = false;
       });
       }, error => {
-        //toast
+        this.toast.add({ severity: 'error', summary: 'Error', detail: "Ocurrió un problema al subir el material." });
         console.log(error);
       }
     );

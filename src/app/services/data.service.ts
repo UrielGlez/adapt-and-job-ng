@@ -66,5 +66,8 @@ export class DataService {
     return this.http.get<any>(environment.serverBaseURL + collection + "?" + params);
   }
 
+  addToBoard(workspaceId: String, userId: String) {
+    return this.http.post<any>(environment.serverBaseURL + `/workspace/add-to-workspace/${workspaceId}/${userId}`, {});
+  }
 
 }

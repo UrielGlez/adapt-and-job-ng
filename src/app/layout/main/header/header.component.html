@@ -26,10 +26,6 @@
         </a>
             <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
                 aria-labelledby="navbarDropdownMenuLink-55">
-                <a class="dropdown-item" [routerLink]="['/home']" (click)="onLogout()">
-                    <i class="fas fa-user-alt mr-2"></i>
-                    Perfil
-                </a>
                 <a class="dropdown-item text-danger" (click)="onLogout()">
                     <i class="fas fa-sign-out-alt mr-2"></i>
                     Cerrar Sesión
@@ -70,3 +66,5 @@
         </button>
     </form>
 </p-dialog>
+
+<p-toast position="bottom-center"></p-toast>

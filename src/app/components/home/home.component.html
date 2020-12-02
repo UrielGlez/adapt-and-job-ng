@@ -1,7 +1,40 @@
 <app-menu [spaceId]="workSpace?._id"></app-menu>
 <div *ngIf="!workSpace">
     <div class="home-container">
-
+        <img class="img-instructions-1" src="../../../assets/img/arrow.png" alt="arrow"/>
+        <h1 class="text-white instructions-1">Crea tus espacios aqui</h1>
+        <div class="row padding-top">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-4">
+                        <img class="img-instructions-2 mt-1" src="../../../assets/img/arrow.png" alt="arrow"/>
+                    </div>
+                    <div class="col-7">
+                        <h2 class="text-white instructions-2 ml-3 mt-5">Cuando crees tu espacio, puedes ver la informacion del espacio aqui</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-4">
+                        <img class="img-instructions-2 mt-1" src="../../../assets/img/arrow.png" alt="arrow"/>
+                    </div>
+                    <div class="col-7">
+                        <h2 class="text-white instructions-2 ml-3 mt-5">También puedes ver el material que ha sido publicado en esta sección</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-4">
+                        <img class="img-instructions-2 mt-1" src="../../../assets/img/arrow.png" alt="arrow"/>
+                    </div>
+                    <div class="col-7">
+                        <h2 class="text-white instructions-2 ml-3 mt-5">Finalmente puedes acceder a la sección de trivias que puedes resolver</h2>
+                    </div>
+                </div>
+            </div>
+        </div>    
     </div>
 </div>
 <div *ngIf="workSpace">
@@ -9,20 +42,25 @@
         <div *ngIf="workSpace; then data else home"></div>
         <ng-template #data>
     
-            <div class="row mb-5 my-auto">
+            <div class="row mb-1 my-auto">
                 <div class="col-6">
                     <h1>{{workSpace._title}}</h1>
                 </div>
-                <div class="col-6">
-                    <a class="btn btn-outline-light float-right" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <div class="col-6" *ngIf="isCreatorOfBoard">
+                    <a class="btn btn-outline-light float-right" href="javascript:void(0)" (click)="showInviteDialog()" role="button" aria-haspopup="true" aria-expanded="false">
                         Invitar
                     </a>
+                </div>
+            </div>
+            <div class="row mb-5 my-auto">
+                <div class="col-6">
+                    <span class="text-muted">{{workSpace._description}}</span>
                 </div>
             </div>
             <div *ngIf="linkUrl">
                 <div class="row">
                     <div class="col-6">
-                        <div class="card my-auto">
+                        <div class="card my-auto workspace-card">
                             <div class="card-body">
                                 <i class="far fa-file-pdf fa-fw" style="font-size: 25px; color:red" aria-hidden="true"></i>
                                 <a href="{{ workSpace._regulation_link }}" target="_blank" class="text-white h2 ml-2">reglamento.pdf</a>
@@ -34,10 +72,9 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="!linkUrl">
+            <div *ngIf="!linkUrl && isCreatorOfBoard">
                 <div class="row mx-auto d-flex align-items-center">
-                    <div class="col-5 mx-auto">
-                        <p-progressBar mode="indeterminate" *ngIf="progress"></p-progressBar>
+                    <div class="col-8 mx-auto">
                         <div class="row">
                             <p-fileUpload name="fileInput" customUpload="false" (onSelect)="validateFileSize($event, fileInput.maxFileSize)" #fileInput
                                 accept=".pdf" maxFileSize="100000000" chooseLabel="Cargar reglamento" (uploadHandler)="onUpload($event)">
@@ -73,4 +110,48 @@
         </ng-template>
     </div>        
 </div>
+
+<p-dialog header="Invitar usuarios" [(visible)]="displayInvite" styleClass="max-1000" [resizable]="false" styleClass='pDialog'
+    [draggable]="false" [modal]="true">
+
+    <div class="card" role="alert" *ngIf="isLoadingUsers">
+        <div class=" card-body">
+            <span class="spinner-border spinner-border-sm mr-2" role="status"></span>
+            Cargando...
+        </div>
+    </div>
+
+    <div class="max-1000" *ngIf="!isLoadingUsers">
+        <form name="inviteForm" #inviteForm="ngForm" (ngSubmit)="inviteForm.form.valid && onAddUser()" novalidate>
+            <div class="row">
+                <div class="mb-2 col-12 mb-5">
+                    <label class="form-label" for="selectedMembers">Usuarios</label>
+                    <p-multiSelect #selectedMembers="ngModel" [style]="{'min-width': '100%'}"  [options]="users" [(ngModel)]="selectedUsers"
+                        optionLabel="_first_name" filterBy="_first_name" placeholder="Agrega a los miembros"
+                        [ngClass]="{ 'is-invalid': inviteForm.submitted && selectedMembers.invalid }" required
+                        name="selectedMembers">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="country-item country-item-value" *ngIf="selectedUsers">
+                                <div>{{selectedUsers._first_name}}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-user pTemplate="item">
+                            <div class="country-item">
+                                <div>{{user._first_name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-multiSelect>
+                    <div class="invalid-feedback" *ngIf="inviteForm.submitted && selectedMembers.invalid">
+                        <div *ngIf="selectedMembers.errors.required">requerido</div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-block btn-primary mt-5">
+                        Invitar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</p-dialog>
 

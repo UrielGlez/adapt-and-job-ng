@@ -15,7 +15,7 @@ const routes: Routes = [
     path: "",
     component: CleanComponent,
     children: [
-      { path: "", component: LandingComponent },
+      { path: "landing", component: LandingComponent },
       { path: "login", component: LoginComponent },
       { path: "signup", component: SignupComponent },
     ],
@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: "documents/:id",  component: DocumentsComponent, canActivate: [SecurityGuard] },
     ]
   },
-  { path: '**', redirectTo: "", pathMatch: 'full' },
+  { path: '**', redirectTo: "landing", pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -18,3 +18,52 @@ h1 {
     background-size: cover;
     height: 100vh;
 }
+
+.img-instructions-1 {
+    margin-top: 6em;
+    float: right;
+    width: 150px;
+    height: 100px;
+    margin-right: 12em;
+    transform: rotate(170deg);
+}
+
+.img-instructions-2 {
+    margin-top: 8em;
+    float: left;
+    width: 100px;
+    margin-left: 10em;
+    transform: rotate(50deg);
+}
+
+.img-instructions-3 {
+    margin-top: 10em;
+    float: left;
+    width: 100px;
+    margin-left: 10em;
+    transform: rotate(50deg);
+}
+
+.instructions-1 {
+    float: right;
+    margin-right: 1em;
+    margin-top: 4em;
+}
+
+.instructions-2 {
+    float: left;
+    margin-top: 1em;
+}
+
+.instructions-3 {
+    float: left;
+    margin-top: 3em;
+}
+
+.mt {
+    margin-top: 7em;
+}
+
+.padding-top {
+    padding-top: 8em;
+}

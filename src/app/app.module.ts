@@ -29,9 +29,13 @@ import { SecurityGuard } from "./services/security.guard";
 import { TokenInterceptor } from "./services/token.interceptor";
 
 import { MessageService, ConfirmationService } from "primeng/api";
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DialogModule } from 'primeng/dialog'; 
+import { ToastModule } from "primeng/toast";
 import { ProgressBarModule } from 'primeng/progressbar';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -49,11 +53,15 @@ import { ProgressBarModule } from 'primeng/progressbar';
   ],
   imports: [
     BrowserModule,
+    ToastModule,
     BrowserAnimationsModule,
+    ConfirmPopupModule,
+    MultiSelectModule,
     FormsModule,
     ProgressBarModule,
     HttpClientModule,
     PdfViewerModule,
+    ConfirmDialogModule,
     FileUploadModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

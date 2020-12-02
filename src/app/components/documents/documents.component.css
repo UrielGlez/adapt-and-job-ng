@@ -14,3 +14,11 @@ h1 {
 .white-text {
     color: white !important;
 }
+
+.home-container {
+    background-image: url("../../../assets/img/home-screen.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100vh;
+}

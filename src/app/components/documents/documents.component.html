@@ -1,82 +1,96 @@
 <app-menu [spaceId]="workSpace?._id"></app-menu>
-<div class="container" *ngIf="!isLoading">
-    <div class="row mb-5 my-auto">
-        <div class="col-6">
-            <h1>{{workSpace._title}}</h1>
-        </div>
-        <div class="col-6">
-            <a class="btn btn-outline-light float-right" 
-                href="javascript:void(0)" (click)="showDialog()" role="button" aria-haspopup="true" aria-expanded="false">
-                Crear
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-4" *ngFor="let material of supportMaterialDocs">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title white-text">{{ material._title }}</h4>
-                    <h6 class="card-subtitle mb-2 text-secondary">publicado por {{ material._creator_name }}</h6>
-                    <p class="card-text text-muted">{{ material._description }}</p>
-                    <i class="far fa-file-pdf fa-fw" style="font-size: 25px; color:red" aria-hidden="true"></i>
-                    <a href="{{ material._link }}" target="_blank" class="text-light h2 ml-2">material.pdf</a>
-                </div>
-            </div>    
-        </div>
-    </div>
+<div *ngIf="!workSpace">
+    <div class="home-container"></div>
 </div>
-
-<p-dialog styleClass="max-1000" [resizable]="false" [style]="{width: '30vw'}"
-    [draggable]="false" header="Subir material" [(visible)]="display" [modal]="true">
-    <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onCreateSupportMaterial()" novalidate>
-        <div class="row mb-2">
-            <div class="col-12">
-                <div class="mb-2">
-                    <label class="form-label" for="name">Nombre</label>
-                    <input type="text" name="name" class="form-control" required placeholder="Ej. Manual"
-                        #name="ngModel" [(ngModel)]="supportMaterial.title" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
-                    <div class="invalid-feedback" *ngIf="f.submitted && name.invalid">
-                        <div *ngIf="name.errors.required">Requerido</div>
+<div *ngIf="workSpace">
+    <div class="container" *ngIf="!isLoading">
+        <div class="row mb-5 my-auto">
+            <div class="col-6">
+                <h1>{{workSpace._title}}</h1>
+            </div>
+            <div class="col-6">
+                <a class="btn btn-outline-light float-right" 
+                    href="javascript:void(0)" (click)="showDialog()" role="button" aria-haspopup="true" aria-expanded="false">
+                    Crear
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4" *ngFor="let material of supportMaterialDocs">
+                <div class="card workspace-card">
+                    <div class="card-body">
+                        <h4 class="card-title white-text">{{ material._title }}</h4>
+                        <h6 class="card-subtitle mb-2 text-secondary">publicado por {{ material._creator_name }}</h6>
+                        <p class="card-text text-muted">{{ material._description }}</p>
+                        <i class="far fa-file-pdf fa-fw" style="font-size: 25px; color:red" aria-hidden="true"></i>
+                        <a href="{{ material._link }}" target="_blank" class="text-light h2 ml-2">material.pdf</a>
                     </div>
-                </div>
-
-                <div class="mb-2">
-                    <label class="form-label" for="desc">Descripción</label>
-                    <input type="text" name="desc" class="form-control" required placeholder="Ej. Documento de estudio"
-                        #desc="ngModel" [(ngModel)]="supportMaterial.description" [ngClass]="{ 'is-invalid': f.submitted && desc.invalid }">
-                    <div class="invalid-feedback" *ngIf="f.submitted && desc.invalid">
-                        <div *ngIf="desc.errors.required">Requerido</div>
+                    <div class="card-footer">
+                        <a href="javascript:void(0)" *ngIf="material._creator === currentUser._id || workSpace._creator === currentUser._id" name="target" (click)="confirm(material._id)" class="white-color float-right">
+                            <i class="fa fa-trash mr-10 cursor-pointer" aria-hidden="true"></i>
+                        </a>
                     </div>
-                </div>
-
-                <div class="mb-2">
-                    <label class="form-label" for="fileInput">Documento</label>
-                    <p-progressBar mode="indeterminate" *ngIf="progress"></p-progressBar>
-                    <div class="row">
-                        <p-fileUpload name="fileInput" mode="basic" customUpload="false" (onSelect)="validateFileSize($event, fileInput.maxFileSize)" #fileInput
-                            accept=".pdf" maxFileSize="100000000" chooseLabel="Cargar documento" (uploadHandler)="onUpload($event)"
-                            [ngClass]="{ 'is-invalid': f.submitted && fileInput.invalid }">
-                            <ng-template let-file pTemplate="file">
-                                <div class="ui-fileupload-row">
-                                <div>
-                                    <i class="far fa-file-pdf fa-fw" style="font-size: 15px; color:red" aria-hidden="true"></i>
-                                    <label>{{ file.name }}</label>
-                                </div>
-                                </div>
-                            </ng-template>
-                        </p-fileUpload>
+                </div>    
+            </div>
+        </div>
+    </div>
+    
+    <p-dialog styleClass="max-1000" [resizable]="false" [style]="{width: '30vw'}"
+        [draggable]="false" header="Subir material" [(visible)]="display" [modal]="true">
+        <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onCreateSupportMaterial()" novalidate>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <div class="mb-2">
+                        <label class="form-label" for="name">Nombre</label>
+                        <input type="text" name="name" class="form-control" required placeholder="Ej. Manual"
+                            #name="ngModel" [(ngModel)]="supportMaterial.title" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                        <div class="invalid-feedback" *ngIf="f.submitted && name.invalid">
+                            <div *ngIf="name.errors.required">Requerido</div>
+                        </div>
                     </div>
-                </div>
-                <div *ngIf="f.submitted && fileInput?.files.length === 0">
-                    <div class="text-danger">
-                      <small>Archivo requerido</small>
+    
+                    <div class="mb-2">
+                        <label class="form-label" for="desc">Descripción</label>
+                        <input type="text" name="desc" class="form-control" required placeholder="Ej. Documento de estudio"
+                            #desc="ngModel" [(ngModel)]="supportMaterial.description" [ngClass]="{ 'is-invalid': f.submitted && desc.invalid }">
+                        <div class="invalid-feedback" *ngIf="f.submitted && desc.invalid">
+                            <div *ngIf="desc.errors.required">Requerido</div>
+                        </div>
+                    </div>
+    
+                    <div class="mb-2">
+                        <label class="form-label" for="fileInput">Documento</label>
+                        <div class="row">
+                            <p-fileUpload name="fileInput" mode="basic" customUpload="false" (onSelect)="validateFileSize($event, fileInput.maxFileSize)" #fileInput
+                                accept=".pdf" maxFileSize="100000000" chooseLabel="Cargar documento" (uploadHandler)="onUpload($event)"
+                                [ngClass]="{ 'is-invalid': f.submitted && fileInput.invalid }">
+                                <ng-template let-file pTemplate="file">
+                                    <div class="ui-fileupload-row">
+                                    <div>
+                                        <i class="far fa-file-pdf fa-fw" style="font-size: 15px; color:red" aria-hidden="true"></i>
+                                        <label>{{ file.name }}</label>
+                                    </div>
+                                    </div>
+                                </ng-template>
+                            </p-fileUpload>
+                        </div>
+                    </div>
+                    <div *ngIf="f.submitted && fileInput?.files.length === 0">
+                        <div class="text-danger">
+                          <small>Archivo requerido</small>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <button type="submit" class="btn btn-outline-primary d-flex float-right" 
-            role="button" aria-haspopup="true" aria-expanded="false">
-            Subir
-        </button>
-    </form>
-</p-dialog>
+            <button type="submit" class="btn btn-outline-primary d-flex float-right" 
+                role="button" aria-haspopup="true" aria-expanded="false">
+                Subir
+            </button>
+        </form>
+    </p-dialog>
+</div>
+
+<p-confirmDialog header="Confirmación" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast>
+
+
